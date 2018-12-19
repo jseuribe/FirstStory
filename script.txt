@@ -1,0 +1,28 @@
+#https://jonathanmh.com/typescript-node-js-tutorial-backend-beginner/
+npm init -y
+npm i --save-dev ts-node
+npm i -g typescript
+
+npm i @types/mocha
+npm i @types/node
+npm i express
+npm i express
+npm i @types/express
+
+mkdir src
+type nul > src/index.ts
+npm i -g nodemon
+
+'''
+   "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "dist",
+        "sourceMap": true,
+        "rootDir": "src"
+    },
+'''
+#The above will compile .ts source code from rootDir, place the generated .js files into dist,
+and then run w/:
+
+node dist/index.js

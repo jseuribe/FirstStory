@@ -1,0 +1,7 @@
+npm init -y
+npm i @types/mocha
+npm i @types/node
+npm i express
+npm i express
+npm i @types/express
+npm i @types/express-session
