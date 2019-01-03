@@ -1,4 +1,4 @@
-export class Resource{
+class Resource{
     public count;
     public name;
 

@@ -1,4 +1,6 @@
-export class Room{
+///<reference path="envitem.ts"/>
+
+class Room{
 
     private conn_rooms: Room;
     private items : EnvItem;
