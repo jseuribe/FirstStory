@@ -1,6 +1,5 @@
 ///<reference path="game.ts"/>
 
-//import {Game} from './game_obj/game'
 module Main{
     var thisgame: Game = null;
 
@@ -14,6 +13,7 @@ module Main{
     var button = document.getElementById("tstbutton");
     var cntbutton = document.getElementById("cntbutton");
 
+
     console.log(button.id);
 
     button.addEventListener('click', function(){
@@ -24,5 +24,6 @@ module Main{
         thisgame.getCount();
     }, false);
 
+    document.body.appendChild(thisgame.create_list());
 
 }
