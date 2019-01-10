@@ -9,7 +9,7 @@
     },
     "files": [
         "./node_modules/@types/mocha/index.d.ts",
-        "./node_modules/@types/mocha/index.d.ts"
+        "./node_modules/@types/mocha/index.d.ts",
         "./node_modules/@types/jquery/JQuery.d.ts"
     ],
     "include": [

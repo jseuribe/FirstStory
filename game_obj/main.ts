@@ -10,20 +10,14 @@ module Main{
 
     start();
 
-    var button = document.getElementById("tstbutton");
-    var cntbutton = document.getElementById("cntbutton");
+    if(thisgame.loadOK){
+        console.log("Game has properly initiated!");
+    }
 
+    var body = document.body;
 
-    console.log(button.id);
-
-    button.addEventListener('click', function(){
-        thisgame.demand();
-    }, false);
-
-    cntbutton.addEventListener('click', function(){
-        thisgame.getCount();
-    }, false);
-
-    document.body.appendChild(thisgame.create_list());
+    console.log(body);
+    
+    body.appendChild(thisgame.create_list());
 
 }
