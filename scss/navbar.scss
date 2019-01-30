@@ -1,0 +1,45 @@
+@mixin phantom-text{
+    text-decoration: none;
+    color: #ccdbed;
+    text-shadow: 0 0 5px #79a2d8;
+}
+  
+@mixin stat-table{
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+@mixin stat-tr{
+    background-color: #000057;
+    @include phantom-text();
+}
+
+@mixin stat-telem{
+    border: 1px solid #312f30;
+    text-align: left;
+    padding: 8px;
+}
+
+#statbar_tb {
+
+    table{
+        @include stat-table();
+    }
+
+    tr{
+        @include stat-tr();
+    }
+
+    th{
+        @include stat-telem();
+    }
+
+    td{
+        @include stat-telem();
+    }
+
+}
+
+html, body {
+    width: 100%;
+}

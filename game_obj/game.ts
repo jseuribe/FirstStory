@@ -58,19 +58,34 @@ class Game{
         alert(this.pageViews);
     }
 
-    public create_list(): HTMLUListElement{
-        var list = document.createElement('ul');
-
+    public create_list(): HTMLTableElement{
+        var list = document.createElement('table');
+        list.setAttribute("id", "statbar_tb");
         console.log("Creating items for resources!!!");
+    
+        var name_row = document.createElement('tr');
         for(var i = 0; i < statNames.length; i++){
-            var item = document.createElement('li');
+
+            var row_descrip = document.createElement('th');
+            row_descrip.appendChild(document.createTextNode(statNames[i]));
+            name_row.append(row_descrip);
+
+        }
+        list.append(name_row);
+
+        var val_row = document.createElement('tr');
+
+        for(var i = 0; i < statNames.length; i++){
+            var item = document.createElement("td");
             console.log(statNames[i]);
             item.setAttribute("id", statNames[i]);
 
             item.appendChild(document.createTextNode(this.det_c_obj(i).count));
 
             list.append(item);
+
         }
+        list.append(val_row);
 
         return list;
     }

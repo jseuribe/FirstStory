@@ -11,6 +11,7 @@ const appDir = rootpath.dirname(require.main.filename);
 
 const cfg_viewspath = config['viewspath']
 const src_path = config['resourcepath']
+const style_path = config['stylepath']
 
 class App {
     public express;
@@ -91,6 +92,10 @@ class App {
         router.get('/fgame.js', (req, res, next) =>{
             res.sendFile(src_path + 'fgame.js');
 
+        })
+
+        router.get('/navbar.css', (req, res, next) =>{
+            res.sendFile(style_path + '/navbar.css');
         })
 
         this.express.use('/', router);
