@@ -1,26 +1,25 @@
-#statbar_tb table {
-  border-collapse: collapse;
+table.stats {
   margin: 0 auto;
 }
-#statbar_tb tr {
+
+#stb tr {
   background-color: #000057;
   text-decoration: none;
   color: #ccdbed;
   text-shadow: 0 0 5px #79a2d8;
 }
-#statbar_tb th {
+#stb th {
   border: 1px solid #312f30;
   text-align: left;
-  padding: 8px;
 }
-#statbar_tb td {
+#stb td {
   border: 1px solid #312f30;
   text-align: left;
-  padding: 8px;
 }
 
 html, body {
   width: 100%;
+  background-color: #000000;
 }
 
 /*# sourceMappingURL=navbar.css.map */

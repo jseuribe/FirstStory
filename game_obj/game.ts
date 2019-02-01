@@ -60,7 +60,8 @@ class Game{
 
     public create_list(): HTMLTableElement{
         var list = document.createElement('table');
-        list.setAttribute("id", "statbar_tb");
+        list.setAttribute("id", "stb");
+        list.setAttribute("class", "stats");
         console.log("Creating items for resources!!!");
     
         var name_row = document.createElement('tr');
@@ -82,7 +83,7 @@ class Game{
 
             item.appendChild(document.createTextNode(this.det_c_obj(i).count));
 
-            list.append(item);
+            val_row.append(item);
 
         }
         list.append(val_row);
