@@ -15,9 +15,10 @@ module Main{
     }
 
     var body = document.body;
+    var statbar_container = document.getElementById("stats");
 
     console.log(body);
     
-    body.appendChild(thisgame.create_list());
+    statbar_container.appendChild(thisgame.create_list());
 
 }

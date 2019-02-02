@@ -1,3 +1,7 @@
+div.stats {
+  height: 100px;
+}
+
 table.stats {
   margin: 0 auto;
 }

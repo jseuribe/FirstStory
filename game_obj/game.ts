@@ -59,6 +59,7 @@ class Game{
     }
 
     public create_list(): HTMLTableElement{
+        
         var list = document.createElement('table');
         list.setAttribute("id", "stb");
         list.setAttribute("class", "stats");

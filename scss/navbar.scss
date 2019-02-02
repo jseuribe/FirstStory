@@ -19,6 +19,10 @@
     //padding: 8px;
 }
 
+div.stats {
+    height: 100px;
+}
+
 table.stats {
 
     @include stat-table();
