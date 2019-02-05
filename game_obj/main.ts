@@ -11,6 +11,9 @@ module Main{
         saver = new Saver(thisgame);
 
         thisgame.set_saver(saver);
+
+        thisgame.resume_from_save(decodeURIComponent(document.cookie));
+
     }
 
     start();

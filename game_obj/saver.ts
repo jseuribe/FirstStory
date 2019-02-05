@@ -19,7 +19,7 @@ class Saver{
     }
 
     public delete_cookie(){
-        document.cookie = "stats=;"+"expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        document.cookie = "fgame=;"+"expires=Thu, 01 Jan 1970 00:00:01 GMT;";
         this.game.reset_all();
     }
 
@@ -29,15 +29,15 @@ class Saver{
         var stats_arr = [];
 
         var c_ts = Date.now();
-        stats_arr.push(this.game.get_profile_data(0, c_ts));
-        stats_arr.push(this.game.get_profile_data(1, c_ts));
-        stats_arr.push(this.game.get_profile_data(2, c_ts));
-        stats_arr.push(this.game.get_profile_data(3, c_ts));
-        stats_arr.push(this.game.get_profile_data(4, c_ts));
+        stats_arr.push(this.game.get_profile_data(0));
+        stats_arr.push(this.game.get_profile_data(1));
+        stats_arr.push(this.game.get_profile_data(2));
+        stats_arr.push(this.game.get_profile_data(3));
+        stats_arr.push(this.game.get_profile_data(4));
 
-        var master_json = {"stats": stats_arr};
+        var master_json = {"resources": stats_arr, "timestamp": c_ts/1000};
 
-        var cookie_str = "stats="+JSON.stringify(master_json)+";";
+        var cookie_str = "fsfile="+JSON.stringify(master_json)+";";
         var expiry_date = new Date(c_ts + this.expiry_amt);
 
         cookie_str += "expires="+expiry_date.toUTCString()+";";

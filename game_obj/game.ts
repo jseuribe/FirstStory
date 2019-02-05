@@ -46,6 +46,7 @@ class Game{
         this.Energy = new Energy(statNames[2], 2);
         this.CPU = new CPU(statNames[3], 3);
         this.Money = new Money(statNames[4], 4);
+
         this.oneSecondInterval = window.setInterval(this.oneSecondMethod.bind(this), 1000);
 
         this.loadOK = true;
@@ -76,8 +77,6 @@ class Game{
         this.Energy.reset();
         this.CPU.reset();
         this.Money.reset();
-
-        this.saver_ref.delete_cookie();
 
     }
 
@@ -152,23 +151,23 @@ class Game{
         }
     }
 
-    public get_profile_data(req_item, ts){
+    public get_profile_data(req_item){
 
         switch(req_item){
             case 0:
-                return this.Psionics.jsonify(ts);
+                return this.Psionics.jsonify();
                 break;
             case 1:
-                return this.Materials.jsonify(ts);
+                return this.Materials.jsonify();
                 break;
             case 2:
-                return this.Energy.jsonify(ts);
+                return this.Energy.jsonify();
                 break;
             case 3:
-                return this.CPU.jsonify(ts);
+                return this.CPU.jsonify();
                 break;
             case 4:
-                return this.Money.jsonify(ts);
+                return this.Money.jsonify();
             default:
                 return {"null":"value"};
 
@@ -186,5 +185,58 @@ class Game{
     public incr_all(): any{
         this.Money.incr();
 
+    }
+
+    public resume_from_save(parsed_cookie){
+        var start_time = Date.now();
+        var cookie_fields = parsed_cookie.split(";");
+
+        console.log("parsing cookie!!!");
+        console.log(cookie_fields);
+
+        var resource_arr;
+        var profile_ts;
+        var b_found_file = false;
+        for(var field of cookie_fields){
+            if(field.split("=")[0] == "fsfile"){
+                //This is the game file! Load this json object into the resource objects
+
+                var parsed_file_json = JSON.parse(field.split("=")[1]);
+                console.log("parsed json:", parsed_file_json);
+                resource_arr = parsed_file_json.resources
+                profile_ts = Number(parsed_file_json.timestamp);
+
+                b_found_file = true;
+            }
+        }
+
+        if(b_found_file){
+            console.log("Found file");
+            this.load_in_stats(resource_arr, start_time/1000, profile_ts);
+        }
+    }
+
+    public load_in_stats(resource_arr, start_time, profile_ts){
+        for(var i = 0; i<statNames.length; i++){
+            switch(i){
+                case 0:
+                    this.Psionics.load_in(resource_arr[0], start_time, profile_ts);
+                    break;
+                case 1:
+                    this.Materials.load_in(resource_arr[1], start_time, profile_ts);
+                    break;
+                case 2:
+                    this.Energy.load_in(resource_arr[2], start_time, profile_ts);
+                    break;
+                case 3:
+                    this.CPU.load_in(resource_arr[3], start_time, profile_ts);
+                    break;
+                case 4:
+                    this.Money.load_in(resource_arr[4], start_time, profile_ts);
+                    break;
+                default:
+                    console.log("There's no fifth resource!!!?");
+            }
+        }
     }
 }

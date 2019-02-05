@@ -19,8 +19,12 @@ class Resource{
         //Default reset method. Each resource will (probably) need unique reset procedures.
     }
 
-    public jsonify(ts){
+    public jsonify(){
         //Default jsonify method. Used to store stat values
+    }
+
+    public load_in(resource_data, start_time, profile_ts){
+        //Default load in method, to initiate a session
     }
 
 }

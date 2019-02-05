@@ -5,7 +5,7 @@ class PSI extends Resource{
         this.count = 0;
     }
 
-    public jsonify(ts){
+    public jsonify(){
         return {};
     }
 
