@@ -22,11 +22,13 @@ class Game{
     private Materials: Materials;
     private Energy: Energy;
     private CPU: CPU;
-    private moni: Money;
+    private Money: Money;
 
     private oneSecondInterval;
 
     public loadOK;
+
+    public saver_ref = null;
 
     constructor(){
         //Probably make some rooms here!
@@ -43,7 +45,7 @@ class Game{
         this.Materials = new Materials(statNames[1], 1);
         this.Energy = new Energy(statNames[2], 2);
         this.CPU = new CPU(statNames[3], 3);
-        this.moni = new Money(statNames[4], 4);
+        this.Money = new Money(statNames[4], 4);
         this.oneSecondInterval = window.setInterval(this.oneSecondMethod.bind(this), 1000);
 
         this.loadOK = true;
@@ -56,6 +58,42 @@ class Game{
 
     public getCount(): void{
         alert(this.pageViews);
+    }
+
+    public set_saver(saver){
+        this.saver_ref = saver;
+    }
+
+    public reset_all(): void{
+    /** 
+    *Summary. Resets the main 4 stats of the game
+    *Description. Calls each material's resource object to handle deletion
+    * 
+    * 
+    */        
+        this.Psionics.reset();
+        this.Materials.reset();
+        this.Energy.reset();
+        this.CPU.reset();
+        this.Money.reset();
+
+        this.saver_ref.delete_cookie();
+
+    }
+
+    public display_dev_options(): HTMLDivElement {
+        var dev_menu = document.createElement("div");
+        dev_menu.setAttribute("id", "devmenu");
+
+        var reset_all_button = document.createElement("button");
+
+        reset_all_button.appendChild(document.createTextNode("Reset Stats"));
+
+        reset_all_button.onclick = this.reset_all.bind(this);
+
+        dev_menu.appendChild(reset_all_button);
+
+        return dev_menu;
     }
 
     public create_list(): HTMLTableElement{
@@ -106,11 +144,34 @@ class Game{
             return this.CPU;
         }
         else if(idval == 4){
-            return this.moni;
+            return this.Money;
         }
         else{
             console.log("RETURNING NULL???");
             return null;
+        }
+    }
+
+    public get_profile_data(req_item, ts){
+
+        switch(req_item){
+            case 0:
+                return this.Psionics.jsonify(ts);
+                break;
+            case 1:
+                return this.Materials.jsonify(ts);
+                break;
+            case 2:
+                return this.Energy.jsonify(ts);
+                break;
+            case 3:
+                return this.CPU.jsonify(ts);
+                break;
+            case 4:
+                return this.Money.jsonify(ts);
+            default:
+                return {"null":"value"};
+
         }
     }
 
@@ -119,11 +180,11 @@ class Game{
         this.incr_all();
 
         //Draw Interfaces
-        this.drawface.updateElement(this.moni);
+        this.drawface.updateElement(this.Money);
     }
 
     public incr_all(): any{
-        this.moni.incr();
+        this.Money.incr();
 
     }
 }

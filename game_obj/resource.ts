@@ -14,4 +14,13 @@ class Resource{
     public incr() {
         //Default incr method! Each resource should have its own methods...
     }
+
+    public reset(){
+        //Default reset method. Each resource will (probably) need unique reset procedures.
+    }
+
+    public jsonify(ts){
+        //Default jsonify method. Used to store stat values
+    }
+
 }

@@ -25,4 +25,19 @@ class Money extends Resource{
             this.time_kept += 1;
         }
     }
+
+    public reset(){
+        this.count = 0;
+        this.wage_rate = 1000;
+        this.time_to_get_paid = 10;
+        this.time_kept = 0;
+    }
+
+    public jsonify(ts){
+
+        var json_profile = {"count": this.count, "wage_rate": this.wage_rate, "timestamp": ts}
+
+        return json_profile;
+
+    }
 }

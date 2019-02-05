@@ -2,6 +2,14 @@ div.stats {
   height: 100px;
 }
 
+div.mainbody {
+  height: 500px;
+}
+
+div.devmenu {
+  height: 100px;
+}
+
 table.stats {
   margin: 0 auto;
 }
