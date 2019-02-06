@@ -2,23 +2,21 @@
 ///<reference path="global_defs.ts"/>
 
 class Money extends Resource{
-    private wage_rate;
-    private time_to_get_paid;
-    private time_kept;
-
     constructor(name: String, idval: number){
         super(name, idval);
-        this.wage_rate = 1000;
-        this.time_to_get_paid = 10;
+        this.rate = 100;
+        this.update_step = 60*60;
         this.time_kept = 0;
+
+        this.count = 1000;
         console.log("Constructor Moni OK");
     }
 
     public incr(): any{
         //Main incrementing function
-        if(this.time_kept == this.time_to_get_paid){
+        if(this.time_kept == this.update_step){
             //If it's time to get paid...get that paper
-            this.count += this.wage_rate;
+            this.count += this.rate;
             this.time_kept = 0;
         }
         else{
@@ -28,14 +26,14 @@ class Money extends Resource{
 
     public reset(){
         this.count = 0;
-        this.wage_rate = 1000;
-        this.time_to_get_paid = 10;
+        this.rate = 1000;
+        this.update_step = 10;
         this.time_kept = 0;
     }
 
     public jsonify(){
 
-        var json_profile = {"count": this.count, "wage_rate": this.wage_rate, "time_to_get_paid":this.time_to_get_paid}
+        var json_profile = {"count": this.count, "rate": this.rate, "update_step":this.update_step}
 
         return json_profile;
 
@@ -45,18 +43,18 @@ class Money extends Resource{
         //Set the amt
 
         this.count = Number(resource_data.count);
-        this.wage_rate = Number(resource_data.wage_rate);
-        this.time_to_get_paid = Number(resource_data.time_to_get_paid);
+        this.rate = Number(resource_data.rate);
+        this.update_step = Number(resource_data.update_step);
 
         //Compute the residual amount from the last ts to right now, system wise.
 
         var ts_diff = start_time - profile_ts;
         console.log("ts_diff:", ts_diff);
 
-        var incr_amount = Math.ceil(ts_diff / this.time_to_get_paid);
+        var incr_amount = Math.ceil(ts_diff / this.update_step);
         console.log("incr amt:", incr_amount);
         
-        console.log("prevamt:", this.count, "added amt:", incr_amount*this.wage_rate)
-        this.count += incr_amount*this.wage_rate;
+        console.log("prevamt:", this.count, "added amt:", incr_amount*this.rate)
+        this.count += incr_amount*this.rate;
     }
 }

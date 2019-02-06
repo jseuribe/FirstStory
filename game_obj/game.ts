@@ -180,10 +180,12 @@ class Game{
 
         //Draw Interfaces
         this.drawface.updateElement(this.Money);
+        this.drawface.updateElement(this.Psionics);
     }
 
     public incr_all(): any{
         this.Money.incr();
+        this.Psionics.incr();
 
     }
 

@@ -1,5 +1,9 @@
 class Resource{
-    public count;
+    public count;    
+    public rate;
+    public update_step;
+    public time_kept;
+
     public name;
     public internal_id;
 
