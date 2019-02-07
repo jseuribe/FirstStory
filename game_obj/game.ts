@@ -95,11 +95,19 @@ class Game{
         return dev_menu;
     }
 
-    public create_list(): HTMLTableElement{
-        
-        var list = document.createElement('table');
-        list.setAttribute("id", "stb");
-        list.setAttribute("class", "stats");
+    public create_resource_table(): HTMLTableElement{
+        /* initializes the stats table.
+        * creates the table element which holds the stats bar values
+        * <table> id: stb, class: stats
+        * individual elements:
+        * <th>: holds the names of the stats.
+        * <tr>: No special values
+        * <td>: id: ResourceName; holds the resource count
+        */
+
+        var stat_table = document.createElement('table');
+        stat_table.setAttribute("id", "stb");
+        stat_table.setAttribute("class", "stats");
         console.log("Creating items for resources!!!");
     
         var name_row = document.createElement('tr');
@@ -110,7 +118,7 @@ class Game{
             name_row.append(row_descrip);
 
         }
-        list.append(name_row);
+        stat_table.append(name_row);
 
         var val_row = document.createElement('tr');
 
@@ -124,9 +132,9 @@ class Game{
             val_row.append(item);
 
         }
-        list.append(val_row);
+        stat_table.append(val_row);
 
-        return list;
+        return stat_table;
     }
 
     public det_c_obj(idval: number): Resource{
@@ -175,12 +183,17 @@ class Game{
     }
 
     public oneSecondMethod(): void{
-        //Resource Counters
+        /* update and draw all forward facing updates to their appropriate elements.
+        * Steps taken are:
+        * 1. Increment Resource Counts 2. Draw Updates
+        * 
+        */
+
+        //Resource Counters get incremented first.
         this.incr_all();
 
         //Draw Interfaces
-        this.drawface.updateElement(this.Money);
-        this.drawface.updateElement(this.Psionics);
+        this.draw_updates();
     }
 
     public incr_all(): any{
@@ -189,32 +202,51 @@ class Game{
 
     }
 
+    public draw_updates(): any{
+        this.drawface.updateElement(this.Money);
+        this.drawface.updateElement(this.Psionics);
+
+    }
+
     public resume_from_save(parsed_cookie){
-        var start_time = Date.now();
-        var cookie_fields = parsed_cookie.split(";");
 
-        console.log("parsing cookie!!!");
-        console.log(cookie_fields);
+        if(parsed_cookie.length > 0)
+        {
+            var start_time = Date.now();
+            var cookie_fields = parsed_cookie.split(";");
+    
+            console.log("parsing cookie!!!");
+            console.log(cookie_fields);
+    
+            var resource_arr;
+            var profile_ts;
+            var b_found_file = false;
+            for(var field of cookie_fields){
+                if(field.split("=")[0] == "fsfile"){
+                    //This is the game file! Load this json object into the resource objects
+    
+                    try{
 
-        var resource_arr;
-        var profile_ts;
-        var b_found_file = false;
-        for(var field of cookie_fields){
-            if(field.split("=")[0] == "fsfile"){
-                //This is the game file! Load this json object into the resource objects
-
-                var parsed_file_json = JSON.parse(field.split("=")[1]);
-                console.log("parsed json:", parsed_file_json);
-                resource_arr = parsed_file_json.resources
-                profile_ts = Number(parsed_file_json.timestamp);
-
-                b_found_file = true;
+                        var parsed_file_json = JSON.parse(field.split("=")[1]);
+                        console.log("parsed json:", parsed_file_json);
+                        resource_arr = parsed_file_json.resources
+                        profile_ts = Number(parsed_file_json.timestamp);
+        
+                        b_found_file = true;
+    
+                    }
+                    catch(e){
+                        console.log("Malformed cookie; treating the connection as a fresh game");
+                        document.cookie = "";
+                    }
+                }
             }
-        }
-
-        if(b_found_file){
-            console.log("Found file");
-            this.load_in_stats(resource_arr, start_time/1000, profile_ts);
+    
+            if(b_found_file){
+                console.log("Found file");
+                this.load_in_stats(resource_arr, start_time/1000, profile_ts);
+            }
+    
         }
     }
 

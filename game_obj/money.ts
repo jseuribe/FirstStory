@@ -40,6 +40,7 @@ class Money extends Resource{
     }
 
     public load_in(resource_data, start_time, profile_ts){
+        console.log("MONEY LOAD-IN");
         //Set the amt
 
         this.count = Number(resource_data.count);

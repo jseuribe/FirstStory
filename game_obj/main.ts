@@ -27,9 +27,12 @@ module Main{
 
     console.log(body);
     
-    statbar_container.appendChild(thisgame.create_list());
+    /*UI Generation*/
+
+    statbar_container.appendChild(thisgame.create_resource_table());
     statbar_container.appendChild(saver.generate_save_button());
     statbar_container.appendChild(saver.generate_delete_save_button());
+
     if(true){
         //This will prooobably get changed to something controlled externally, instead of being always set..
         var devmenu = thisgame.display_dev_options();

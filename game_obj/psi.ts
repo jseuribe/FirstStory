@@ -33,4 +33,25 @@ class PSI extends Resource{
         }
     }
 
+    public load_in(resource_data, start_time, profile_ts){
+
+        console.log("PSIONICS LOAD-IN");
+
+        //Set the amt        
+        this.count = Number(resource_data.count);
+        this.rate = Number(resource_data.rate);
+        this.update_step = Number(resource_data.update_step);
+
+        //Compute the residual amount from the last ts to right now, system wise.
+
+        var ts_diff = start_time - profile_ts;
+        console.log("ts_diff:", ts_diff);
+
+        var incr_amount = Math.ceil(ts_diff / this.update_step);
+        console.log("incr amt:", incr_amount);
+        
+        console.log("prevamt:", this.count, "added amt:", incr_amount*this.rate)
+        this.count += incr_amount*this.rate;
+        
+    }
 }
