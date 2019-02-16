@@ -1,0 +1,56 @@
+/* You can add global styles to this file, and also import other style files */
+@mixin phantom-text{
+    text-decoration: none;
+    color: #ccdbed;
+    text-shadow: 0 0 5px #79a2d8;
+}
+  
+@mixin stat-table{
+    margin: 0 auto;
+    background-color: #000057;
+}
+
+@mixin stat-tr{
+    @include phantom-text();
+}
+
+@mixin stat-telem{
+    border: 1px solid #312f30;
+    text-align: left;
+    //padding: 8px;
+}
+
+div.stats {
+    height: 100px;
+}
+
+div.devmenu {
+    height: 100px;
+}
+
+table.stats {
+
+    @include stat-table();
+
+
+}
+
+#stb {
+    tr{
+        @include stat-tr();
+    }
+
+    th{
+        @include stat-telem();
+    }
+
+    td{
+        @include stat-telem();
+    }
+
+}
+
+html, body {
+    width: 100%;
+    background-color: #000000
+}
