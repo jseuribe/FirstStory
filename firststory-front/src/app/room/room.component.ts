@@ -4,18 +4,20 @@ import {Room} from '../models/room';
 
 import {GameRunner} from '../game/gamerunner';
 import { EventEmitter } from 'events';
+import { RoomchangeService } from '../services/roomchange.service';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit, OnChanges {
+export class RoomComponent implements OnInit {
 
-  @Input() data: JSON;
-  @Output() roomChange = new EventEmitter<JSON>();
+  public data: JSON;
 
-  constructor(private roomServ: RoomService) { }
+  constructor(private roomServ: RoomService, private roomchangeServ: RoomchangeService) {
+    this.roomchangeServ.updateRoom(this.data);
+   }
 
   ngOnInit() {
     this.simplefetch();
@@ -27,9 +29,11 @@ export class RoomComponent implements OnInit, OnChanges {
 
   public parse_room(response: JSON){
     this.data = response;
-    this.roomChange.emit(this.data);
+    this.roomchangeServ.updateRoom(this.data);
+    //this.roomChange.emit(this.data);
   }
 
+  /*
   public ngOnChanges(changes: {[key: string]: SimpleChange}){
    console.log("Change!");
    
@@ -38,4 +42,5 @@ export class RoomComponent implements OnInit, OnChanges {
      console.log("Change in value:", changedProp);
    }
   }
+  */
 }

@@ -10,13 +10,15 @@ import { FormsModule } from '@angular/forms';
 import {RoomService} from './services/room.service';
 import { ScriptinjectorComponent } from './scriptinjector/scriptinjector.component';
 import { RoomobjectComponent } from './roomobject/roomobject.component';
+import { RoomchangerComponent } from './roomchanger/roomchanger.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RoomComponent,
     ScriptinjectorComponent,
-    RoomobjectComponent
+    RoomobjectComponent,
+    RoomchangerComponent
   ],
   imports: [
     BrowserModule,

@@ -15,6 +15,7 @@ export class RoomService {
   constructor(private http: Http) { }
 
   public simplefetch(){
+    console.log("Fetch data from be");
     let URI = `${this.serverApi}/simplefetch/`;
 
     return this.http.get(URI).pipe(map(res => res.json()));

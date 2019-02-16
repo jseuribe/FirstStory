@@ -2,5 +2,7 @@ firststory-back/node_modules
 firststory-back/config.json
 firststory-back/game_obj
 firststory-back/css
+firststory-back/dist
+
 firststory-front/node_modules
 firststory-front/dist
