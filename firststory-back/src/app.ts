@@ -12,6 +12,9 @@ const appDir = rootpath.dirname(require.main.filename);
 const cfg_viewspath = config['viewspath']
 const src_path = config['resourcepath']
 const style_path = config['stylepath']
+const angular_path = config['angularpath']
+
+const cors = require('cors');
 
 class App {
     public express;
@@ -21,6 +24,8 @@ class App {
         this.express = express();
         const sess = require('express-session')
         this.express.use(sess({'secret':'itsasecret'}))
+        this.express.use(cors());
+        
         this.mountRoutes();
 
     }
@@ -98,6 +103,38 @@ class App {
             res.sendFile(style_path + '/navbar.css');
         })
 
+        router.get('/simplefetch', (req, res, next)=>{
+            res.set({
+                'Content-Type': 'application/json'
+            });
+
+            res.json({name: 'Dorm_1', objects: ['o:1:1', 'o:1:2', 'o:1:3'], events: ['e:1:1', 'e:1:2'], id:1});
+        })
+
+        router.get('/getangularfe', (req, res, next)=>{
+            res.sendFile(angular_path+'/index.html')
+        })
+
+        router.get('/runtime.js', (req, res, next) =>{
+            res.sendFile(angular_path+'/runtime.js');
+        })
+
+        router.get('/polyfills.js', (req, res, next) =>{
+            res.sendFile(angular_path+'/polyfills.js');
+        })
+
+        
+        router.get('/styles.js', (req, res, next) =>{
+            res.sendFile(angular_path+'/styles.js');
+        })
+
+        router.get('/vendor.js', (req, res, next) =>{
+            res.sendFile(angular_path+'/vendor.js');
+        })
+       
+        router.get('/main.js', (req, res, next) =>{
+            res.sendFile(angular_path+'/main.js');
+        })
         this.express.use('/', router);
     }
 }

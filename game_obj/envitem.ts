@@ -1,3 +1,0 @@
-class EnvItem{
-    private itemName;
-}

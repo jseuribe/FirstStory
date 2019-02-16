@@ -1,0 +1,2 @@
+C:\Users\jseur\Documents\testmods\first_story_tst\src\app.ts
+C:\Users\jseur\Documents\testmods\first_story_tst\src\index.ts
