@@ -34,6 +34,7 @@ export class Game{
     private CPU: CPU;
     private Money: Money;
 
+    private c_room_data: JSON;
     private c_room_id: String;
 
     private oneSecondInterval;
@@ -288,7 +289,12 @@ export class Game{
         }
     }
 
-    public change_room(room_id: String){
-        this.c_room_id = room_id;
+    public update_room(room_data){
+        this.c_room_data = room_data;
     }
+
+    public get_current_room(){
+        return this.c_room_data;
+    }
+    
 }
