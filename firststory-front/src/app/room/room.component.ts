@@ -30,17 +30,6 @@ export class RoomComponent implements OnInit {
   public parse_room(response: JSON){
     this.data = response;
     this.roomchangeServ.updateRoom(this.data);
-    //this.roomChange.emit(this.data);
   }
 
-  /*
-  public ngOnChanges(changes: {[key: string]: SimpleChange}){
-   console.log("Change!");
-   
-   for(let propName in changes){
-     let changedProp = changes[propName];
-     console.log("Change in value:", changedProp);
-   }
-  }
-  */
 }
