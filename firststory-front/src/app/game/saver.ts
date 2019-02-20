@@ -4,6 +4,7 @@ import {Game} from './game';
 export class Saver{
 
     private game = null;
+    private cookie_name = 'fsfile=';
     public expiry_amt = null;
 
     constructor(game){
@@ -20,8 +21,12 @@ export class Saver{
     }
 
     public delete_cookie(){
-        document.cookie = "fgame=;"+"expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        document.cookie = this.cookie_name+"expires=Thu, 01 Jan 1970 00:00:01 GMT;";
         this.game.reset_all();
+
+        //Reload the page. Don't want any pesky room changes to stay!
+        location.reload();
+
     }
 
     public jsonify_data(){
@@ -36,9 +41,9 @@ export class Saver{
         stats_arr.push(this.game.get_profile_data(3));
         stats_arr.push(this.game.get_profile_data(4));
 
-        var master_json = {"resources": stats_arr, "timestamp": c_ts/1000, "current_room": this.game.get_curent_room()};
+        var master_json = {"resources": stats_arr, "timestamp": c_ts/1000, "currentroom": this.game.get_current_room()};
 
-        var cookie_str = "fsfile="+JSON.stringify(master_json)+";";
+        var cookie_str = this.cookie_name+JSON.stringify(master_json)+";";
         var expiry_date = new Date(c_ts + this.expiry_amt);
 
         cookie_str += "expires="+expiry_date.toUTCString()+";";
