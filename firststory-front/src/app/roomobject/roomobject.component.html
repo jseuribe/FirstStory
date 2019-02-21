@@ -1,7 +1,7 @@
 <div *ngIf="room">
-  <ul>
-    <li *ngFor="let obj of room.objects">
-      {{obj}}
-    </li>
-  </ul>
+    <ng-template ngFor let-item [ngForOf]="room.objects">
+      <div class="object">
+        {{item}}
+      </div>
+    </ng-template>
 </div>

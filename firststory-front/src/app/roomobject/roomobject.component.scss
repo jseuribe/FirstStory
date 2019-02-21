@@ -1,6 +1,6 @@
 @import '../../styles.scss';
 
-div{
-    background-color: #3c3c3c;
+div.object{
+    background-color: #272727;
     @include phantom-text(#f4ca4a);
 }
