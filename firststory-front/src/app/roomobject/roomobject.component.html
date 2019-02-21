@@ -1,3 +1,7 @@
-<p>
-  roomobject works!
-</p>
+<div *ngIf="room">
+  <ul>
+    <li *ngFor="let obj of room.objects">
+      {{obj}}
+    </li>
+  </ul>
+</div>
