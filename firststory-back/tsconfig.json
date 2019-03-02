@@ -2,9 +2,9 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
-        "outDir": "dist",
+        "outDir": "./dist",
         "sourceMap": true,
-        "rootDir": "src",
+        "rootDir": "./",
         "allowSyntheticDefaultImports": true
     },
     "files": [
@@ -13,6 +13,7 @@
         "./node_modules/@types/jquery/JQuery.d.ts"
     ],
     "include": [
+        "lib/**/*.ts",
         "src/**/*.ts"
     ],
     "exclude": [

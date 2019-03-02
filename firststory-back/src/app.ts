@@ -2,8 +2,9 @@ import * as express from 'express'
 import * as session from 'express-session'
 import * as cookieParser from 'cookie-parser'
 import { Session } from 'inspector'
+import {fsdb_client} from '../libs/fsdb';
 
-const config = require('../config.json')
+const config = require('../../config.json')
 const rootpath = require('path')
 const fs = require('fs')
 
@@ -13,8 +14,10 @@ const cfg_viewspath = config['viewspath']
 const src_path = config['resourcepath']
 const style_path = config['stylepath']
 const angular_path = config['angularpath']
+const bodyParser = require('body-parser')
 
 const cors = require('cors');
+const fsdb_conn = new fsdb_client(config['dbuser'], config['dbhost'], config['database'], config['password']);
 
 class App {
     public express;
@@ -25,7 +28,7 @@ class App {
         const sess = require('express-session')
         this.express.use(sess({'secret':'itsasecret'}))
         this.express.use(cors());
-        
+        this.express.use(bodyParser.json());
         this.mountRoutes();
 
     }
@@ -72,22 +75,6 @@ class App {
             }
         })
 
-        router.get('/testgame', (req, res, next) =>{
-            /*
-            if(req.session.game){
-                req.session.game.page_views++;
-                res.send("You have an active game session! Also you've viewed this page: " + String(req.session.game.page_views));
-            }
-            else{
-                req.session.game = new Game();
-                req.session.game.page_views = 1;
-                var pg_view = req.session.game.page_views;
-
-                res.send("Visited Room: " + String(pg_view) + " Putting player in room; Status: " + req.session.game.doesWork);
-            }
-            */
-        })
-
         router.get('/domtest', (req, res, next) =>{
 
             res.sendFile(cfg_viewspath + 'main.html');
@@ -109,6 +96,19 @@ class App {
             });
 
             res.json({name: 'Dorm_1', objects: ['o:1:1', 'o:1:2', 'o:1:3'], events: ['e:1:1', 'e:1:2'], id:1});
+        })
+
+        /*
+         * Main Room Fetch Function
+         *
+         */
+        router.get('/retrieve_room', (req,res,next)=>{
+            console.log("Attempting to retrieve room...");
+            
+            var user_json = req.body;
+            fsdb_conn.fetch_room(user_json['id']).then(db_ret =>{
+                res.json(db_ret);
+            });
         })
 
         router.get('/getangularfe', (req, res, next)=>{
