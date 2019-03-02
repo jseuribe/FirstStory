@@ -1,3 +1,5 @@
+@import '../styles.scss';
+
 h1 {
-    color: white;
+    @include phantom-text(#ffffff, #ffffff, 2px, 2px, 8px);
 }
