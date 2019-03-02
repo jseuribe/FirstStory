@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@mixin phantom-text($color){
+@mixin phantom-text($color, $textshadow: #79a2d8, $hshadow: 0, $vshadow: 0, $blurradius: 5px){
     text-decoration: none;
     color: $color;
-    text-shadow: 0 0 5px #79a2d8;
+    text-shadow: $hshadow $vshadow $blurradius $textshadow;
 }
   
 @mixin stat-table{
