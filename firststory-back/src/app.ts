@@ -102,13 +102,14 @@ class App {
          * Main Room Fetch Function
          *
          */
-        router.get('/retrieve_room', (req,res,next)=>{
+        router.post('/retrieve_room', (req,res,next)=>{
             console.log("Attempting to retrieve room...");
             
             var user_json = req.body;
             //Promises???? Is there???? A way to do this sequentially, kind of????
             fsdb_conn.fetch_room_full(user_json['id']).then( room_profile => res.json(room_profile));
             console.log("yeet!");
+
         })
 
         router.get('/getangularfe', (req, res, next)=>{
