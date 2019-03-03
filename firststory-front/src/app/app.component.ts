@@ -17,7 +17,9 @@ export class AppComponent implements OnInit  {
 
   constructor(private gamerunner: GameRunner, private roomchangeListener: RoomchangeService){
 
-    gamerunner = new GameRunner();
+    gamerunner = new GameRunner(this.roomchangeListener);
+    this.roomchangeListener.c_room_data.subscribe(result => this.update_gamerunner_room(result));
+
   }
 
   public update_gamerunner_room(room_data){
@@ -30,7 +32,6 @@ export class AppComponent implements OnInit  {
   ngOnInit(){
 
     this.gamerunner.start();
-    this.roomchangeListener.c_room_data.subscribe(result => this.update_gamerunner_room(result));
 
   }
 }

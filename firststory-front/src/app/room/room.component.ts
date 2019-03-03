@@ -5,6 +5,8 @@ import {Room} from '../models/room';
 import {GameRunner} from '../game/gamerunner';
 import { EventEmitter } from 'events';
 import { RoomchangeService } from '../services/roomchange.service';
+import {Http, Headers} from '@angular/http';
+import {map} from 'rxjs/operators'
 
 @Component({
   selector: 'app-room',
@@ -14,17 +16,22 @@ import { RoomchangeService } from '../services/roomchange.service';
 export class RoomComponent implements OnInit {
 
   public data: JSON;
+  private serverApi='http://localhost:3000';
 
-  constructor(private roomServ: RoomService, private roomchangeServ: RoomchangeService) {
-    this.roomchangeServ.updateRoom(this.data);
+  constructor(private http: Http, private roomServ: RoomService, private roomchangeServ: RoomchangeService) {
+    this.roomchangeServ.c_room_id.subscribe(result => this.fetch_active_room(result));
    }
 
   ngOnInit() {
-    this.simplefetch();
+    //this.simplefetch();
   }
 
   public simplefetch(){
     this.roomServ.simplefetch().subscribe(response => this.parse_room(response),)
+  }
+
+  public fetch_active_room(room_id){
+    this.roomServ.get_room_details(room_id).subscribe(response => this.parse_room(response),)
   }
 
   public parse_room(response: JSON){
