@@ -1,7 +1,7 @@
 <div *ngIf="room">
     <ng-template ngFor let-item [ngForOf]="room.objects">
       <div class="object">
-        {{item}}
+        {{item.object_name}}
       </div>
     </ng-template>
 </div>
