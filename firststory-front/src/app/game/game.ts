@@ -21,6 +21,8 @@ import { Materials } from './materials';
 import { Money } from './money';
 import {Resource} from './resource';
 import {Globals} from './global_defs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { RoomchangeService } from '../services/roomchange.service';
 
 export class Game{
     private rooms: Room;
@@ -35,20 +37,24 @@ export class Game{
     private Money: Money;
 
     private c_room_data: JSON;
-    private c_room_id: String;
 
+    public c_room_id: number;
+  
     private oneSecondInterval;
 
     public loadOK;
 
     public saver_ref = null;
 
-    constructor(private globals: Globals){
+    constructor(private globals: Globals, private roomChangeListener: RoomchangeService)
+    {
         //Probably make some rooms here!
         console.log("Executing Game Constructor!!!");
         var descrip : string = "dorm_rm_player";
 
         var firstroom: Room = new Room(descrip);
+        this.c_room_id = 1;
+        this.roomChangeListener.c_room_id.subscribe(result => this.set_room_id(result));
 
         this.drawface = new DrawController();
 
@@ -263,6 +269,11 @@ export class Game{
             }
     
         }
+        else{
+            //This SHOULD get called when a profile isn't able to be loaded!
+            //Note: Then this should be called in the upper if statement, with the save file's room id
+            this.roomChangeListener.updateRoomID(1);
+        }
     }
 
     public load_in_stats(resource_arr, start_time, profile_ts){
@@ -296,5 +307,11 @@ export class Game{
     public get_current_room(){
         return this.c_room_data;
     }
-    
+ 
+    public get_current_room_id(){
+        return this.c_room_id;
+    }
+    public set_room_id(room_id){
+        this.c_room_id = room_id;
+    }
 }

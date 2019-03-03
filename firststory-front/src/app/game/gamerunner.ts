@@ -3,21 +3,24 @@ import {Injectable, OnChanges, SimpleChange} from '@angular/core';
 import {Game} from './game';
 import {Saver} from './saver';
 import { Globals } from './global_defs';
+import { RoomchangeService } from '../services/roomchange.service';
 
 ///<reference path="game.ts"/>
 ///<reference path="saver.ts"/>
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class GameRunner{
 
     public game: Game = null;
     public saver: Saver = null;
 
+    constructor(private roomChangeListener: RoomchangeService){}
+
     public start(): void{
         console.log("I just executed!!!");
-        this.game = new Game(new Globals());
+        this.game = new Game(new Globals(), this.roomChangeListener);
         this.saver = new Saver(this.game);
 
         this.game.set_saver(this.saver);
