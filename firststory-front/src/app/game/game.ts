@@ -242,7 +242,11 @@ export class Game{
             var resource_arr;
             var profile_ts;
             var b_found_file = false;
+            var b_bad_file = false;
             for(var field of cookie_fields){
+
+                console.log(field);
+
                 if(field.split("=")[0] == "fsfile"){
                     //This is the game file! Load this json object into the resource objects
     
@@ -251,21 +255,36 @@ export class Game{
                         var parsed_file_json = JSON.parse(field.split("=")[1]);
                         console.log("parsed json:", parsed_file_json);
                         resource_arr = parsed_file_json.resources
+                        if(resource_arr === null){
+                            console.log("Corrupted resource object");
+                        }
+                        
                         profile_ts = Number(parsed_file_json.timestamp);
         
                         b_found_file = true;
-    
+                        b_bad_file = false;
+
                     }
                     catch(e){
                         console.log("Malformed cookie; treating the connection as a fresh game");
                         document.cookie = "";
+                        b_bad_file = true;
                     }
+                }
+                else{
+                    b_bad_file = true;
                 }
             }
     
             if(b_found_file){
                 console.log("Found file");
                 this.load_in_stats(resource_arr, start_time/1000, profile_ts);
+                
+                return b_found_file;
+            }
+            else if(b_bad_file){
+                console.log("Corrupt file found...Setting to defaults");
+                this.roomChangeListener.updateRoomID(1);
             }
     
         }
@@ -274,6 +293,8 @@ export class Game{
             //Note: Then this should be called in the upper if statement, with the save file's room id
             this.roomChangeListener.updateRoomID(1);
         }
+
+        return false;
     }
 
     public load_in_stats(resource_arr, start_time, profile_ts){

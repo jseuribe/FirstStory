@@ -103,12 +103,16 @@ class App {
          *
          */
         router.post('/retrieve_room', (req,res,next)=>{
-            console.log("Attempting to retrieve room...");
             
             var user_json = req.body;
+            console.log("Attempting to retrieve room...", user_json);
+
             //Promises???? Is there???? A way to do this sequentially, kind of????
-            fsdb_conn.fetch_room_full(user_json['id']).then( room_profile => res.json(room_profile));
-            console.log("yeet!");
+            fsdb_conn.fetch_room_full(user_json['id']).then( room_profile => {
+                
+                res.json(room_profile);
+                console.log(room_profile);
+            });
 
         })
 

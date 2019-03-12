@@ -25,12 +25,13 @@ export class GameRunner{
 
         this.game.set_saver(this.saver);
 
-        this.game.resume_from_save(decodeURIComponent(document.cookie));
-
-        if(this.game.loadOK){
+        if(this.game.resume_from_save(decodeURIComponent(document.cookie))){
             console.log("Game has properly initiated!");
         }
-    
+        else{
+            console.log("Game was not loaded properly; treating as fresh save");
+        }
+        
         var body = document.body;
         var statbar_container = document.getElementById("stats");
     

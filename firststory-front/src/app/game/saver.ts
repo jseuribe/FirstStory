@@ -41,7 +41,7 @@ export class Saver{
         stats_arr.push(this.game.get_profile_data(3));
         stats_arr.push(this.game.get_profile_data(4));
 
-        var master_json = {"resources": stats_arr, "timestamp": c_ts/1000, "currentroom": this.game.get_current_room()};
+        var master_json = {"resources": stats_arr, "timestamp": c_ts/1000, "currentroom": this.game.get_current_room_id()};
 
         var cookie_str = this.cookie_name+JSON.stringify(master_json)+";";
         var expiry_date = new Date(c_ts + this.expiry_amt);
