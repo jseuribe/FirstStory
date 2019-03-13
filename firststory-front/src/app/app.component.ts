@@ -23,8 +23,7 @@ export class AppComponent implements OnInit  {
   }
 
   public update_gamerunner_room(room_data){
-
-    this.gamerunner.game.update_room(room_data);
+    console.log("ROOM DATA BEING PERCOLATED TO APP");
     this.c_room_data = room_data;
 
   }

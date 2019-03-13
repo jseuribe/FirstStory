@@ -55,7 +55,7 @@ export class Game{
         var firstroom: Room = new Room(descrip);
         this.c_room_id = 1;
         this.roomChangeListener.c_room_id.subscribe(result => this.set_room_id(result));
-
+        this.roomChangeListener.c_room_data.subscribe(result => this.set_room_data(result));
         this.drawface = new DrawController();
 
         this.pageViews = 0;
@@ -258,7 +258,7 @@ export class Game{
                         if(resource_arr === null){
                             console.log("Corrupted resource object");
                         }
-                        
+
                         profile_ts = Number(parsed_file_json.timestamp);
         
                         b_found_file = true;
@@ -334,5 +334,10 @@ export class Game{
     }
     public set_room_id(room_id){
         this.c_room_id = room_id;
+    }
+
+    public set_room_data(room_data){
+        this.c_room_data = room_data;
+        console.log("Set room data to:", this.c_room_data);
     }
 }
