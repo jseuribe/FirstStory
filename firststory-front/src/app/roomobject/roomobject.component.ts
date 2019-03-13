@@ -15,4 +15,8 @@ export class RoomobjectComponent implements OnInit {
   ngOnInit() {
   }
 
+  public objectAct(obj_id){
+    console.log("Reacted to", obj_id);
+  }
+
 }

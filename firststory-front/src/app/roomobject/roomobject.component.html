@@ -1,6 +1,6 @@
 <div *ngIf="room">
     <ng-template ngFor let-item [ngForOf]="room.objects">
-      <div class="object">
+      <div class="object" (click)="objectAct(item)">
         {{item.object_name}}
       </div>
     </ng-template>
