@@ -240,6 +240,7 @@ export class Game{
             console.log(cookie_fields);
     
             var resource_arr;
+            var file_room_id;
             var profile_ts;
             var b_found_file = false;
             var b_bad_file = false;
@@ -247,7 +248,7 @@ export class Game{
 
                 console.log(field);
 
-                if(field.split("=")[0] == "fsfile"){
+                if(field.split("=")[0].trim() == "fsfile"){
                     //This is the game file! Load this json object into the resource objects
     
                     try{
@@ -257,12 +258,17 @@ export class Game{
                         resource_arr = parsed_file_json.resources
                         if(resource_arr === null){
                             console.log("Corrupted resource object");
+                            b_bad_file = true;
+                            break;
                         }
-
+                        file_room_id = parsed_file_json.currentroom;
+                        if(file_room_id === null){
+                            b_bad_file = true;
+                            break;
+                        }
                         profile_ts = Number(parsed_file_json.timestamp);
         
                         b_found_file = true;
-                        b_bad_file = false;
 
                     }
                     catch(e){
@@ -272,13 +278,18 @@ export class Game{
                     }
                 }
                 else{
-                    b_bad_file = true;
+                    console.log("Not file, scanning next");
+                    continue;
                 }
             }
     
             if(b_found_file){
                 console.log("Found file");
                 this.load_in_stats(resource_arr, start_time/1000, profile_ts);
+                
+                //Update the room using the pulled file value
+                this.c_room_id = file_room_id;
+                this.roomChangeListener.updateRoomID(this.c_room_id);
                 
                 return b_found_file;
             }
