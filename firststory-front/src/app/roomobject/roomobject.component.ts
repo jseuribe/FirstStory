@@ -1,5 +1,6 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { RoomComponent } from '../room/room.component';
+import { GameactionService } from '../services/gameaction.service';
 
 @Component({
   selector: 'app-roomobject',
@@ -10,13 +11,17 @@ export class RoomobjectComponent implements OnInit {
 
   @Input() room: RoomComponent;
 
-  constructor() { }
+  constructor(private gameactionListener: GameactionService) { }
 
   ngOnInit() {
   }
 
-  public objectAct(obj_id){
-    console.log("Reacted to", obj_id);
+  public objectAct(data){
+
+    console.log("You clicked on an object!");
+
+    this.gameactionListener.set_picked_up(data);
+    
   }
 
 }
