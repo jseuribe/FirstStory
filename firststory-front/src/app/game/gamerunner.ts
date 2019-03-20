@@ -4,6 +4,7 @@ import {Game} from './game';
 import {Saver} from './saver';
 import { Globals } from './global_defs';
 import { RoomchangeService } from '../services/roomchange.service';
+import { GameactionService } from '../services/gameaction.service';
 
 ///<reference path="game.ts"/>
 ///<reference path="saver.ts"/>
@@ -16,11 +17,11 @@ export class GameRunner{
     public game: Game = null;
     public saver: Saver = null;
 
-    constructor(private roomChangeListener: RoomchangeService){}
+    constructor(private roomChangeListener: RoomchangeService, private gameactionListener: GameactionService){}
 
     public start(): void{
         console.log("I just executed!!!");
-        this.game = new Game(new Globals(), this.roomChangeListener);
+        this.game = new Game(new Globals(), this.roomChangeListener, this.gameactionListener);
         this.saver = new Saver(this.game);
 
         this.game.set_saver(this.saver);
@@ -42,7 +43,8 @@ export class GameRunner{
         statbar_container.appendChild(this.game.create_resource_table());
         statbar_container.appendChild(this.saver.generate_save_button());
         statbar_container.appendChild(this.saver.generate_delete_save_button());
-    
+        statbar_container.appendChild(this.saver.generate_inventory_state_button());
+        
         if(true){
             //This will prooobably get changed to something controlled externally, instead of being always set..
             var devmenu = this.game.display_dev_options();

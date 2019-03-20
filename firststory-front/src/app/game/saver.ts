@@ -73,4 +73,12 @@ export class Saver{
         return delete_button;
         
     }
+
+    public generate_inventory_state_button(){
+        var inventory_state_button = document.createElement("button");
+        inventory_state_button.appendChild(document.createTextNode("Console Print Inventory"));
+        inventory_state_button.onclick = this.game.determine_active_objects.bind(this.game);
+    
+        return inventory_state_button;
+    }
 }

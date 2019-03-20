@@ -21,8 +21,11 @@ import { Materials } from './materials';
 import { Money } from './money';
 import {Resource} from './resource';
 import {Globals} from './global_defs';
+import {Object} from './object';
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RoomchangeService } from '../services/roomchange.service';
+import { GameactionService } from '../services/gameaction.service';
 
 export class Game{
     private rooms: Room;
@@ -46,7 +49,10 @@ export class Game{
 
     public saver_ref = null;
 
-    constructor(private globals: Globals, private roomChangeListener: RoomchangeService)
+    public object_count: number;
+    public objects: Object[];
+
+    constructor(private globals: Globals, private roomChangeListener: RoomchangeService, private gameactionListener: GameactionService)
     {
         //Probably make some rooms here!
         console.log("Executing Game Constructor!!!");
@@ -54,8 +60,8 @@ export class Game{
 
         var firstroom: Room = new Room(descrip);
         this.c_room_id = 1;
-        this.roomChangeListener.c_room_id.subscribe(result => this.set_room_id(result));
-        this.roomChangeListener.c_room_data.subscribe(result => this.set_room_data(result));
+        this.roomChangeListener.c_room_id.subscribe(result => {console.log("Game room id listener activated"); this.set_room_id(result)});
+        this.roomChangeListener.c_room_data.subscribe(result => {console.log("Game room data listener activated"); this.set_room_data(result)});
         this.drawface = new DrawController();
 
         this.pageViews = 0;
@@ -71,6 +77,12 @@ export class Game{
         this.loadOK = true;
 
         this.globals = globals;
+        this.object_count = 100;
+        this.populate_object_array();
+        
+        this.gameactionListener.c_object.subscribe(result => {console.log("Executing subscriber in game"); this.obtain_object(result)});
+        console.log(typeof(this.roomChangeListener), "RMCHNGLIST");
+        console.log(typeof(this.gameactionListener), "GMACTLIST");
     }
 
     public demand(): void{
@@ -332,6 +344,10 @@ export class Game{
         }
     }
 
+    /*
+        Room Management Functions
+    */
+
     public update_room(room_data){
         this.c_room_data = room_data;
     }
@@ -350,5 +366,60 @@ export class Game{
     public set_room_data(room_data){
         this.c_room_data = room_data;
         console.log("Set room data to:", this.c_room_data);
+    }
+
+    /*
+        Object Management Functions
+    */
+
+    private populate_object_array(){
+        //Default array populator. Allows the array to be indexed once created.
+        this.objects = [];
+        console.log("Creating slots for items:", this.object_count);
+        for(var index = 0; index < this.object_count; index++){
+            this.objects.push(new Object);
+        }
+    }
+
+    public access_object_at(object_id){
+        //First object is gonna be empty cause lolzeroindexing
+        //Also objects are stored in the DB starting at id=1. So shrugs
+
+        return this.objects[object_id];
+
+    }
+
+    public obtain_object(data){
+        //TODO: This might need to check the yet to exist room state array
+        console.log("Obtained item!")
+        if(data === null){
+            console.log("Bad Item");
+            return false;
+        }
+        if(data.hasOwnProperty("object_id")){
+            console.log("Found item!");
+
+            var new_item_id = data.object_id;
+            this.objects[new_item_id] = data;
+            this.objects[new_item_id].state = 1;
+    
+            return true;    
+        }
+        else{
+            return false;
+        }
+    }
+ 
+    public determine_active_objects(){
+        var tot_active_objects = 0;
+        console.log("Checking items:", this.object_count);
+        for(var index = 0; index < this.object_count; index++){
+            if(this.objects[index].object_id != -1){
+                tot_active_objects++;
+                console.log(this.objects[index]);
+            }
+        }
+
+        console.log("Active Objects:", tot_active_objects);
     }
 }
